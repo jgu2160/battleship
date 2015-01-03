@@ -4,6 +4,7 @@ require './lib/battleship'
 require './lib/ship'
 require './lib/evaluator'
 require './lib/printer'
+require './lib/map'
 
 class BattleshipTest < MiniTest::Test
 
@@ -67,7 +68,7 @@ class BattleshipTest < MiniTest::Test
 		assert_equal ["A1", "A2"], @evaluator.hits_record
 	end
 
-	
+
 	def test_it_ouputs_the_miss_entries
 		miss_evaluator = Evaluator.new(Ship.new)
 		miss_evaluator.hit("A3")
@@ -94,4 +95,5 @@ class BattleshipTest < MiniTest::Test
 		puts @ship_1x2.random_1x2
 		puts @ship_1x3.random_1x3
 	end
+
 end
