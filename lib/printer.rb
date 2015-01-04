@@ -16,8 +16,7 @@ module Printer
 	end
 
 	def self.welcome
-		"Welcome to EAT THE OCEAN.\nWould you like to (p)lay, read the (i)nstructions, or
-		(q)uit?"
+		"Welcome to EAT THE OCEAN.\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?"
 	end
 
 	def self.user_guess_right
@@ -61,11 +60,15 @@ module Printer
 	end
 
 	def self.already_guessed
-		"You've already guessed this."
+		"You've already guessed this. Please guess again."
 	end
 
 	def self.one_by_two_sunk
 		"You've eaten all the dolphins...:("
+	end
+
+	def self.guess_opponent_coordinate
+		"Please guess where the computer's marine life is."		
 	end
 
 	def self.one_by_three_sunk

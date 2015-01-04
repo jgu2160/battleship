@@ -1,5 +1,6 @@
 require_relative "evaluator"
 require_relative "printer"
+require_relative "ship"
 require_relative "map"
 require 'byebug'
 
@@ -10,7 +11,6 @@ class Battleship
 	def initialize
 		@user_ship_1x2 = Ship.new
 		@user_ship_1x3 = Ship.new
-		@user_ship_1x3.coordinates = ["A4", "B4", "C4"]
 
 		@opponent_ship_1x2 = Ship.new
 		@opponent_ship_1x2.random_1x2
@@ -45,20 +45,22 @@ class Battleship
 
 	def validate_input(aString)
 		upcased = aString.upcase
-		if upcased[/[ABCD][1234]/]
+		if upcased[/[ABCD][1234]/] && upcased.length == 2
 			# byebug
-			return upcased
+			return upcased[0..1]
+		elsif aString == "q"
+			$user_choice = "q"
 		else
 			input_invalid = true
 			while input_invalid
-				Printer.invalid_input
+				puts Printer.invalid_input
 				upcased = gets.chomp.upcase
 				if upcased[/[ABCD][1234]/]
 					input_invalid=false
 				end
 			end
 		end
-		upcased
+		upcased[0..1]
 	end
 
 	def user_input_first_boat
@@ -66,6 +68,7 @@ class Battleship
 		validated = self.validate_input(to_validate)
 		first_coordinate = validated
 
+		puts Printer.next_coordinate
 		to_validate_2 = gets.chomp
 		validated_2 = self.validate_input(to_validate_2)
 		second_coordinate = validated_2
@@ -81,26 +84,24 @@ class Battleship
 		validated = self.validate_input(to_validate)
 		first_coordinate = validated
 
+		puts Printer.next_coordinate
 		to_validate_2 = gets.chomp
 		validated_2 = self.validate_input(to_validate_2)
 		second_coordinate = validated_2
 
+		puts Printer.next_coordinate
 		to_validate_3 = gets.chomp
-		validated_3 = self.validate_input(to_validate_2)
-		third_coordinate = validated_2
+		validated_3 = self.validate_input(to_validate_3)
+		third_coordinate = validated_3
 
 		@user_ship_1x3.coordinates[0] = first_coordinate
 		@user_ship_1x3.coordinates[1] = second_coordinate
 		@user_ship_1x3.coordinates[2] = third_coordinate
 
 		self.mark_initial_ship_position_on_map
+		self.show_user_map
 		Printer.prompt_first_guess
 		self.prompt_user
-	end
-
-	def user_input_next_coordinate(aString)
-		Printer.next_coordinate
-		self.validate_input(aString)
 	end
 
 	def mark_initial_ship_position_on_map
@@ -143,17 +144,19 @@ class Battleship
 
 	def computer_guess
 		computer_coordinate = ["A", "B", "C", "D"].sample + rand(1..4).to_s
+		self.already_guessed(computer_coordinate, @opponent_evaluator)
 		self.guess(computer_coordinate, @opponent_evaluator)
 	end
 
 	def guess(aGuess, evaluator)
 		hit_or_not = evaluator.hit(aGuess)
 		if evaluator == @user_evaluator
-			hit_or_not ?  puts(Printer.user_guess_right) : puts(Printer.user_guess_wrong)
+			hit_or_not ?  puts("\n" + Printer.user_guess_right) : puts("\n" + Printer.user_guess_wrong)
 			self.show_opponent_map
 			self.computer_guess
 			self.show_user_map
-			@opponent_ship_1x2.sunk + @opponent_ship_1x3.sunk == 2 ? self.win_game : nil
+
+			@opponent_ship_1x2.sunk + @opponent_ship_1x3.sunk == 2 ? self.win_game : self.prompt_user
 		else
 			hit_or_not ? puts(Printer.comp_guess_right) : puts(Printer.comp_guess_wrong)
 			@user_ship_1x2.sunk + @user_ship_1x3.sunk == 2 ? self.lose_game : nil

@@ -49,5 +49,4 @@ class BattleshipTest < MiniTest::Test
 	 	@battleship.guess("B2",@battleship.user_evaluator)
 		@battleship.guess("B3",@battleship.user_evaluator)
 	end
-
 end
