@@ -1,6 +1,5 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/battleship'
 require './lib/ship'
 require './lib/evaluator'
 require './lib/printer'
@@ -8,15 +7,15 @@ require './lib/map'
 
 class EvaluatorTest < MiniTest::Test
 	def setup
-		@battleship = Battleship.new
 		@ship_1x2 = Ship.new
 		@ship_1x3 = Ship.new(@ship_1x2)
 		@evaluator = Evaluator.new(@ship_1x2)
+		@map = Map.new(4)
+		@evaluator.map = @map
 	end
 
 	def test_it_exists
 		assert @evaluator
-		assert @battleship
 	end
 
 	def test_it_registers_a_hit
@@ -68,6 +67,24 @@ class EvaluatorTest < MiniTest::Test
 		miss_evaluator.hit("A4")
 		assert_equal ["A3", "A4"], miss_evaluator.misses_record
 	end
+
+	def test_it_shows_hit_coordinates
+		@ship_1x3.random_1x3
+		@evaluator.ship_array[1] = @ship_1x3
+		@ship_1x3.coordinates[0] = "B1"
+		@ship_1x3.coordinates[1] = "B2"
+		@ship_1x3.coordinates[2] = "B3"
+		@ship_1x2.coordinates.each do |coordinate|
+			@map.grid_mark(coordinate, "🐬")
+		end
+		@ship_1x3.coordinates.each do |coordinate|
+			@map.grid_mark(coordinate, "🐋")
+		end
+		@evaluator.hit("A1")
+		@evaluator.hit("B2")
+		puts @map.grid_array
+
+	end 
 
 	def test_it_sinks_both_ships
 		@ship_1x2.random_1x2

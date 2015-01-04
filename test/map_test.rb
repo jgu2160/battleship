@@ -32,14 +32,13 @@ class MapTest < MiniTest::Test
 	def test_it_places_marks
 		@map.grid_create
 		@map.border_create
-		@map.grid_mark("A1", "🚤")
-		@map.grid_mark("A2", "🚤")
-		@map.grid_mark("A3", "🚣")
-		@map.grid_mark("B1", "💥")
-		@map.grid_mark("B2", "🚤")
-		@map.grid_mark("D1", "🚣")
-		@map.grid_mark("D2", "💥")
-		@map.grid_mark("D3", "🚣")
+		@map.grid_mark("A1", "🐋")
+		@map.grid_mark("A2", "🐋")
+		@map.grid_mark("A3", "🍖")
+		@map.grid_mark("B1", "🐬")
+		@map.grid_mark("B2", "🐬")
+		@map.grid_mark("D1", "🐬")
+		@map.grid_mark("D2", "🍖")
 		puts @map.grid_array
 	end
 end

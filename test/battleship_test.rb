@@ -18,20 +18,15 @@ class BattleshipTest < MiniTest::Test
 	def test_it_marks_initial_user_position_on_map
 		@battleship.mark_initial_ship_position_on_map
 		puts @battleship.user_map.grid_array
+		puts @battleship.opponent_map.grid_array
 	end
 
-	# def test_it_generates_borders_of_varying_size
-	# 	@map.size = 16
-	# 	puts @map.border_create
-	# end
+	def test_it_validates_user_inputs
+		assert_equal "C2", @battleship.user_input_one_coordinate("C2")
+		assert_equal Printer.invalid_input, @battleship.user_input_one_coordinate("CC")
+	end
 
-	# def test_it_generates_number_line
-	# 	puts @map.grid_create
-	# end
-
-	# def test_it_generates_the_grid
-	# 	@map.grid_create
-	# 	@map.border_create
-	# 	puts @map.grid_array
-	# end
+	def test_it_register_and_shows_successful_guesses
+	 	
+	end 		
 end
