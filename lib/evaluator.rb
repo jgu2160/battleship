@@ -1,8 +1,8 @@
 require 'byebug'
 
 class Evaluator
-	attr_accessor :ship_array, :map
-	attr_reader :hits_record, :misses_record, :guess_record
+	attr_accessor :ship_array, :map, :guess_record
+	attr_reader :hits_record, :misses_record
 	
 	def initialize(opponent_ship_1 = nil, opponent_ship_2 = nil, map = nil)
 		@ship_array = [opponent_ship_1, opponent_ship_2]
@@ -22,7 +22,7 @@ class Evaluator
 					@hits_record << user_coordinate
 					ship.hits += 1
 					hit_it = true
-					if ship.size == ship.hits
+					if ship.coordinates.length == ship.hits
 						ship.sunk = 1
 					end
 					break
@@ -33,6 +33,7 @@ class Evaluator
 				end
 			end
 		end
+		@guess_record.uniq!
 		hit_it
 	end
 end

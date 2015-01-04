@@ -10,7 +10,7 @@ class Battleship
 	def initialize
 		@user_ship_1x2 = Ship.new
 		@user_ship_1x3 = Ship.new
-		@user_ship_1x3.coordinates = ["B1", "B2", "B3"]
+		@user_ship_1x3.coordinates = ["A4", "B4", "C4"]
 
 		@opponent_ship_1x2 = Ship.new
 		@opponent_ship_1x2.random_1x2
@@ -43,31 +43,56 @@ class Battleship
 		end
 	end
 
-	def user_input_one_coordinate(aString)
+	def validate_input(aString)
 		upcased = aString.upcase
 		if upcased[/[ABCD][1234]/]
+			# byebug
 			return upcased
 		else
-			Printer.invalid_input
-			#self.user_input_one_coordinate
+			input_invalid = true
+			while input_invalid
+				Printer.invalid_input
+				upcased = gets.chomp.upcase
+				if upcased[/[ABCD][1234]/]
+					input_invalid=false
+				end
+			end
 		end
+		upcased
 	end
 
 	def user_input_first_boat
-		first_coordinate = gets.chomp
-		second_coordinate = self.user_input_next_coordinate
+		to_validate = gets.chomp
+		validated = self.validate_input(to_validate)
+		first_coordinate = validated
+
+		to_validate_2 = gets.chomp
+		validated_2 = self.validate_input(to_validate_2)
+		second_coordinate = validated_2
+
 		@user_ship_1x2.coordinates[0] = first_coordinate
 		@user_ship_1x2.coordinates[1] = second_coordinate
+
 		self.prompt_user
 	end
 
 	def user_input_second_boat
-		first_coordinate = gets.chomp
-		second_coordinate = self.user_input_next_coordinate
-		third_coordinate = self.user_input_next_coordinate
+		to_validate = gets.chomp
+		validated = self.validate_input(to_validate)
+		first_coordinate = validated
+
+		to_validate_2 = gets.chomp
+		validated_2 = self.validate_input(to_validate_2)
+		second_coordinate = validated_2
+
+		to_validate_3 = gets.chomp
+		validated_3 = self.validate_input(to_validate_2)
+		third_coordinate = validated_2
+
 		@user_ship_1x3.coordinates[0] = first_coordinate
 		@user_ship_1x3.coordinates[1] = second_coordinate
 		@user_ship_1x3.coordinates[2] = third_coordinate
+
 		self.mark_initial_ship_position_on_map
 		Printer.prompt_first_guess
 		self.prompt_user
@@ -75,7 +100,7 @@ class Battleship
 
 	def user_input_next_coordinate(aString)
 		Printer.next_coordinate
-		self.user_input_one_coordinate(aString)
+		self.validate_input(aString)
 	end
 
 	def mark_initial_ship_position_on_map
@@ -89,18 +114,30 @@ class Battleship
 	end
 
 	def show_user_map
-		Printer.user_map
+		puts Printer.user_map
 		puts @user_map.grid_array
+		puts "\n"
 	end
 
 	def show_opponent_map
-		Printer.opponent_map
+		puts Printer.opponent_map
 		puts @opponent_map.grid_array
+		@opponent_ship_1x2.sunk == 1 ? puts(Printer.one_by_two_sunk) : nil
+		@opponent_ship_1x3.sunk == 1 ? puts(Printer.one_by_three_sunk) : nil
+		puts "\n"
+	end
+
+	def already_guessed(coordinate, evaluator)
+		if evaluator.guess_record.include?(coordinate)
+			puts Printer.already_guessed
+			self.send(caller[0][/`.*'/][1..-2].to_sym)
+		end
 	end
 
 	def user_guess
 		user_coordinate = gets.chomp
-		validated_coordinate = self.user_input_one_coordinate(user_coordinate)
+		validated_coordinate = self.validate_input(user_coordinate)
+		self.already_guessed(validated_coordinate, @user_evaluator)
 		self.guess(validated_coordinate, @user_evaluator)
 	end
 
@@ -113,18 +150,25 @@ class Battleship
 		hit_or_not = evaluator.hit(aGuess)
 		if evaluator == @user_evaluator
 			hit_or_not ?  puts(Printer.user_guess_right) : puts(Printer.user_guess_wrong)
-			
-			puts Printer.opponent_map
 			self.show_opponent_map
-			
 			self.computer_guess
-			
-			puts Printer.user_map
 			self.show_user_map
-			#need to loop back to user
+			@opponent_ship_1x2.sunk + @opponent_ship_1x3.sunk == 2 ? self.win_game : nil
 		else
 			hit_or_not ? puts(Printer.comp_guess_right) : puts(Printer.comp_guess_wrong)
+			@user_ship_1x2.sunk + @user_ship_1x3.sunk == 2 ? self.lose_game : nil
 		end
+	end
+
+	def win_game
+			puts "\n" + "You win this (unethical) game! You defeated the computer in #{@user_evaluator.guess_record.length} moves." + "\n\n"
+	end
+
+	def lose_game
+			puts "\n" + "You lose. The computer demoralized you in #{@opponent_evaluator.guess_record.length} moves." + "\n\n"
+			# puts "Play again? (y\\n)"
+			# answer = gets.chomp
+			# if answer == "y"
 	end
 end
 
@@ -134,7 +178,7 @@ if __FILE__ == $0
 	until $user_choice == "q"
 		$user_choice = gets.chomp
 		if $user_choice == "p"
-			game = Mastermind.new
+			game = Battleship.new
 			game.prompt_user
 		elsif $user_choice == "i"
 			puts Printer.instructions

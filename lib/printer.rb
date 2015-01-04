@@ -21,7 +21,7 @@ module Printer
 	end
 
 	def self.user_guess_right
-		"You scored a meal! You're closer to starving your opponent"
+		"You scored a meal! You're closer to starving your opponent."
 	end
 
 	def self.user_guess_wrong
@@ -49,7 +49,7 @@ module Printer
 	end
 
 	def self.instructions
-		"The goal of EAT THE OCEAN is to guess the location of your opponent's swimming mammals, dolphins (🐬) taking up 1x2 spaces and whales (🐋) taking up 1x3 spaces on a 4x4 grid. Enter any coordinates in the form of 'LETTERnumber', letters A-D and numbers 1-4. The goal is to eat your opponent's entire ocean before it can eat yours. All animals turn into sushi (🍣) upon being discovered. Missed animals are represented by disruptions in the water, water droplets (💦)."
+		"The goal of EAT THE OCEAN is to guess the location of your opponent's swimming mammals, dolphins (🐬 ) taking up 1x2 spaces and whales (🐋 ) taking up 1x3 spaces on a 4x4 grid. Enter any coordinates in the form of 'LETTERnumber', letters A-D and numbers 1-4. The goal is to eat your opponent's entire ocean before it can eat yours. All animals turn into sushi (🍣 ) upon being discovered. Missed animals are represented by disruptions in the water, water droplets (💦 )."
 	end
 
 	def self.whats_your_guess
@@ -58,5 +58,17 @@ module Printer
 
 	def self.prompt_first_guess
 		"Now you may begin the guessing game."
+	end
+
+	def self.already_guessed
+		"You've already guessed this."
+	end
+
+	def self.one_by_two_sunk
+		"You've eaten all the dolphins...:("
+	end
+
+	def self.one_by_three_sunk
+		"You've eaten all the whales...:("
 	end
 end
