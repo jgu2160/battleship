@@ -11,22 +11,25 @@ class BattleshipTest < MiniTest::Test
 		@battleship = Battleship.new
 	end
 
-	def test_it_exists
-		assert @battleship
-	end
+	# def test_it_exists
+	# 	assert @battleship
+	# end
 
-	def test_it_marks_initial_user_position_on_map
+	# def test_it_marks_initial_user_position_on_map
+	# 	@battleship.mark_initial_ship_position_on_map
+	# 	puts @battleship.user_map.grid_array
+	# 	puts @battleship.opponent_map.grid_array
+	# end
+
+	# def test_it_validates_user_inputs
+	# 	assert_equal "C2", @battleship.user_input_one_coordinate("C2")
+	# 	assert_equal Printer.invalid_input, @battleship.user_input_one_coordinate("CC")
+	# end
+
+	def test_it_registers_and_shows_successful_guesses
 		@battleship.mark_initial_ship_position_on_map
-		puts @battleship.user_map.grid_array
-		puts @battleship.opponent_map.grid_array
-	end
-
-	def test_it_validates_user_inputs
-		assert_equal "C2", @battleship.user_input_one_coordinate("C2")
-		assert_equal Printer.invalid_input, @battleship.user_input_one_coordinate("CC")
-	end
-
-	def test_it_register_and_shows_successful_guesses
-	 	
+		@battleship.opponent_ship_1x2.coordinates = ["A1", "A2"]
+		@battleship.opponent_ship_1x3.coordinates = ["B1", "B2", "B3"]
+	 	@battleship.guess("A1",@battleship.user_evaluator)
 	end 		
 end

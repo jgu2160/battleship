@@ -4,8 +4,8 @@ require_relative "map"
 require 'byebug'
 
 class Battleship
-	attr_reader :user_map, :opponent_map
-	attr_accessor :first_time
+	attr_reader :user_map, :opponent_map, :user_evaluator
+	attr_accessor :first_time, :opponent_ship_1x2, :opponent_ship_1x3
 
 	def initialize
 		@user_ship_1x2 = Ship.new
@@ -21,7 +21,7 @@ class Battleship
 		@opponent_map = Map.new(4)
 
 		@user_evaluator = Evaluator.new(@opponent_ship_1x2, @opponent_ship_1x3, @opponent_map)
-		@opponent_evaluator = Evaluator.new(@user_ship_1x2, @user_ship_1x3)
+		@opponent_evaluator = Evaluator.new(@user_ship_1x2, @user_ship_1x3, @user_map)
 	
 		@first_time = true
 		@second_time = false
@@ -112,13 +112,18 @@ class Battleship
 	def guess(aGuess, evaluator)
 		hit_or_not = evaluator.hit(aGuess)
 		if evaluator == @user_evaluator
-			hit_or_not ? Printer.guess_right : Printer.guess_wrong
+			hit_or_not ?  puts(Printer.user_guess_right) : puts(Printer.user_guess_wrong)
+			
+			puts Printer.opponent_map
 			self.show_opponent_map
-			Printer.computer_guess
+			
 			self.computer_guess
+			
+			puts Printer.user_map
 			self.show_user_map
+			#need to loop back to user
 		else
-			evaluator.hit(aGuess)
+			hit_or_not ? puts(Printer.comp_guess_right) : puts(Printer.comp_guess_wrong)
 		end
 	end
 end

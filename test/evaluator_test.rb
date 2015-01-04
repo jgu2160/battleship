@@ -25,6 +25,11 @@ class EvaluatorTest < MiniTest::Test
 		assert_equal 1, @ship_1x2.hits
 	end
 
+	def test_it_returns_true_on_hit
+		assert @evaluator.hit("A1")
+		refute @evaluator.hit("A4")
+	end
+
 	def test_it_hits_on_a_hit
 		@evaluator.hit("A1")
 		@evaluator.hit("A2")
@@ -49,12 +54,6 @@ class EvaluatorTest < MiniTest::Test
 		assert_equal 1, @ship_1x3.sunk
 	end
 
-	def test_it_deletes_old_ship_entries
-		@evaluator.hit("A1")
-		@evaluator.hit("A1")
-		assert_equal 1, @ship_1x2.hits
-	end
-
 	def test_it_ouputs_the_hit_entries
 		@evaluator.hit("A1")
 		@evaluator.hit("A2")
@@ -63,6 +62,8 @@ class EvaluatorTest < MiniTest::Test
 
 	def test_it_ouputs_the_miss_entries
 		miss_evaluator = Evaluator.new(Ship.new)
+		map = Map.new(4)
+		miss_evaluator.map = map
 		miss_evaluator.hit("A3")
 		miss_evaluator.hit("A4")
 		assert_equal ["A3", "A4"], miss_evaluator.misses_record
@@ -71,9 +72,7 @@ class EvaluatorTest < MiniTest::Test
 	def test_it_shows_hit_coordinates
 		@ship_1x3.random_1x3
 		@evaluator.ship_array[1] = @ship_1x3
-		@ship_1x3.coordinates[0] = "B1"
-		@ship_1x3.coordinates[1] = "B2"
-		@ship_1x3.coordinates[2] = "B3"
+		@ship_1x3.coordinates = ["B1", "B2", "B3"]
 		@ship_1x2.coordinates.each do |coordinate|
 			@map.grid_mark(coordinate, "🐬")
 		end
@@ -82,6 +81,10 @@ class EvaluatorTest < MiniTest::Test
 		end
 		@evaluator.hit("A1")
 		@evaluator.hit("B2")
+		@evaluator.hit("B3")
+		@evaluator.hit("B4")
+		@evaluator.hit("D1")
+		@evaluator.hit("D2")
 		puts @map.grid_array
 
 	end 

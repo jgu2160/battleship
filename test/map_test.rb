@@ -10,9 +10,9 @@ class MapTest < MiniTest::Test
 		@map = Map.new(4)
 	end
 
-	def test_it_exists
-		assert @map
-	end
+	# def test_it_exists
+	# 	assert @map
+	# end
 
 	# def test_it_generates_borders_of_varying_size
 	# 	@map.size = 16
@@ -34,11 +34,12 @@ class MapTest < MiniTest::Test
 		@map.border_create
 		@map.grid_mark("A1", "🐋")
 		@map.grid_mark("A2", "🐋")
-		@map.grid_mark("A3", "🍖")
+		@map.grid_mark("A3", "🍣")
 		@map.grid_mark("B1", "🐬")
 		@map.grid_mark("B2", "🐬")
 		@map.grid_mark("D1", "🐬")
-		@map.grid_mark("D2", "🍖")
+		@map.grid_mark("D2", "🍣")
+		@map.grid_mark("D3", "💦")
 		puts @map.grid_array
 	end
 end
