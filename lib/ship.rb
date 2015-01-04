@@ -6,7 +6,7 @@ class Ship
 		@other_ship = other_ship
 		@coordinates = ["A1", "A2"]
 		@size = @coordinates.length
-		@sunk = false
+		@sunk = 0
 		@hits = 0
 		@sample_array = ["A", "B", "C"]
 	end
@@ -48,5 +48,4 @@ class Ship
 		end
 		return space_okay
 	end
-
 end

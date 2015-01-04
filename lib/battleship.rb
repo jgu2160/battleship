@@ -1,12 +1,36 @@
 require_relative "evaluator"
 require_relative "printer"
+require_relative "map"
+require 'byebug'
 
 class Battleship
+	attr_reader :user_map
+
 	def initialize
-		@target_array = Array.new(4){['r','g','b','y'].sample}.join
-		@evaluator = Evaluator.new(@target_array)
-		@guesses = 0
-		@first_time = true
+		@user_ship_1x2 = Ship.new
+		@user_ship_1x3 = Ship.new
+		@user_ship_1x3.coordinates = ["B1", "B2", "B3"]
+
+		@opponent_ship_1x2 = Ship.new
+		@opponent_ship_1x2.random_1x2
+		@opponent_ship_1x3 = Ship.new(@opponent_ship_1x2)
+		@opponent_ship_1x3.random_1x3
+
+		@user_map = Map.new(4)
+		@opponent_map = Map.new(4)
+
+		@user_evaluator = Evaluator.new(@opponent_ship_1x2, @opponent_ship_1x3)
+		@opponent_evaluator = Evaluator.new(@user_ship_1x2, @user_ship_1x3)
+	end
+
+	def mark_initial_ship_position_on_map
+		@user_ship_1x2.coordinates.each do |coordinate|
+			@user_map.grid_mark(coordinate, "🚣")
+		end
+
+		@user_ship_1x3.coordinates.each do |coordinate|
+			@user_map.grid_mark(coordinate, "🚤")
+		end
 	end
 
 	def prompt_user

@@ -4,9 +4,10 @@ class Map
 
 	def initialize(size)
 		@size = size
-		@input_array = []
 		@grid_array = []
-		@num_of_spaces = " " * @size * 2
+		@num_of_spaces = " 🌊" * @size
+		self.grid_create
+		self.border_create
 	end
 
 	def grid_create
@@ -39,8 +40,8 @@ class Map
 	end
 end
 
-# 🚢⛵️⚓🐙🐋🐬💥
-# 🚤🚣🚨🐠🐳🐟
+# 🚢⛵️⚓🐙🐋🐬💥🐙○
+# 🚤🚣🚨🐠🐳🐟🍖🌊
 
 if __FILE__ == $0
 	puts ["===========\n", ". 1 2 3 4\n", "A X X\n", "B     Y\n", "C     Y\n", "D     Y\n", "==========="]
