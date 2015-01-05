@@ -117,6 +117,8 @@ class Battleship
 	def show_user_map
 		puts Printer.user_map
 		puts @user_map.grid_array
+		@user_ship_1x2.sunk == 1 ? puts(Printer.comp_one_by_two_sunk) : nil
+		@user_ship_1x3.sunk == 1 ? puts(Printer.comp_one_by_three_sunk) : nil
 		puts "\n"
 	end
 
@@ -129,10 +131,15 @@ class Battleship
 	end
 
 	def already_guessed(coordinate, evaluator)
+		#begin janky
+		looped = false
 		if evaluator.guess_record.include?(coordinate)
-			puts Printer.already_guessed
+			evaluator == @user_evaluator ? puts(Printer.already_guessed) : nil
+			looped = true
 			self.send(caller[0][/`.*'/][1..-2].to_sym)
 		end
+		looped
+		#end janky
 	end
 
 	def user_guess
@@ -144,8 +151,9 @@ class Battleship
 
 	def computer_guess
 		computer_coordinate = ["A", "B", "C", "D"].sample + rand(1..4).to_s
-		self.already_guessed(computer_coordinate, @opponent_evaluator)
-		self.guess(computer_coordinate, @opponent_evaluator)
+		unless self.already_guessed(computer_coordinate, @opponent_evaluator)
+			self.guess(computer_coordinate, @opponent_evaluator)
+		end
 	end
 
 	def guess(aGuess, evaluator)
@@ -157,25 +165,28 @@ class Battleship
 			self.show_user_map
 
 			@opponent_ship_1x2.sunk + @opponent_ship_1x3.sunk == 2 ? self.win_game : self.prompt_user
-		else
-			hit_or_not ? puts(Printer.comp_guess_right) : puts(Printer.comp_guess_wrong)
 			@user_ship_1x2.sunk + @user_ship_1x3.sunk == 2 ? self.lose_game : nil
+		else
+			hit_or_not ? puts(Printer.comp_guess_right) : puts(Printer.comp_guess_wrong + aGuess + ".")
 		end
 	end
 
 	def win_game
-			puts "\n" + "You win this (unethical) game! You defeated the computer in #{@user_evaluator.guess_record.length} moves." + "\n\n"
+		puts "\n" + "You win this (unethical) game! You defeated the computer in #{@user_evaluator.guess_record.length} moves." + "\n\n"
+		$user_choice = "q"
 	end
 
 	def lose_game
-			puts "\n" + "You lose. The computer demoralized you in #{@opponent_evaluator.guess_record.length} moves." + "\n\n"
-			# puts "Play again? (y\\n)"
-			# answer = gets.chomp
-			# if answer == "y"
+		puts "\n" + "You lose. The computer demoralized you in #{@opponent_evaluator.guess_record.length} moves." + "\n\n"
+		# puts "Play again? (y\\n)"
+		# answer = gets.chomp
+		# if answer == "y"
+		$user_choice = "q"
 	end
 end
 
 if __FILE__ == $0
+	puts Printer.title
 	puts Printer.welcome
 	$user_choice
 	until $user_choice == "q"

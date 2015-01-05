@@ -21,6 +21,7 @@ class Evaluator
 					@map.grid_mark(user_coordinate,"🍣")
 					@hits_record << user_coordinate
 					ship.hits += 1
+					@guess_record.uniq!
 					hit_it = true
 					if ship.coordinates.length == ship.hits
 						ship.sunk = 1
@@ -30,6 +31,7 @@ class Evaluator
 					@misses_record << user_coordinate
 					@map.grid_mark(user_coordinate,"💦")
 					@misses_record.uniq!
+					hit_it = false
 				end
 			end
 		end
