@@ -25,7 +25,7 @@ class Map
 	def border_create
 		border_string = ""
 		(@size+1).times do |x|
-			border_string << "🚣 "
+			border_string << "🏄 "
 		end
 		@grid_array[0] = border_string
 		@grid_array[size + 2] = border_string
@@ -40,8 +40,8 @@ class Map
 	end
 end
 
-# 🚢⛵️⚓🐙🐋🐬💥-○💦
-# 🚤🚣🚨🐠🐳🐟🍖🌊🍣🍗
+# 🚢⛵️⚓🐙🐋🐬💥-○💦🐡🏄
+# 🚤🚣🚨🐠🐳🐟🍖🌊🍣🍗🏊
 
 if __FILE__ == $0
 	puts ["===========\n", ". 1 2 3 4\n", "A X X\n", "B     Y\n", "C     Y\n", "D     Y\n", "==========="]

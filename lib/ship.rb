@@ -38,6 +38,14 @@ class Ship
 		@coordinates
 	end
 
+	def straight?
+		
+	end
+
+	def blocked?
+		
+	end
+
 	def horz_space_check(starting_coordinate, ship_size)
 		space_okay = true
 		ship_size.times do |x|

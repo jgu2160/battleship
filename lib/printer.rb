@@ -1,3 +1,5 @@
+require 'colorize'
+
 module Printer
 	def self.invalid_input
 		"Please enter a valid letter-number combination."
@@ -21,12 +23,12 @@ module Printer
 EE       AAAAA    TTT      TTT   HH   HH EE       OO   OO CC    C EE       AAAAA  NNN  NN 
 EEEEE   AA   AA   TTT      TTT   HHHHHHH EEEEE    OO   OO CC      EEEEE   AA   AA NN N NN 
 EE      AAAAAAA   TTT      TTT   HH   HH EE       OO   OO CC    C EE      AAAAAAA NN  NNN 
-EEEEEEE AA   AA   TTT      TTT   HH   HH EEEEEEE   OOOO0   CCCCC  EEEEEEE AA   AA NN   NN "
+EEEEEEE AA   AA   TTT      TTT   HH   HH EEEEEEE   OOOO0   CCCCC  EEEEEEE AA   AA NN   NN ".colorize(:blue)
 	end
 
 	def self.welcome
 		"\n" * 5 +
-		"Welcome to EAT THE OCEAN.\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?"
+		"Would you like to (p)lay, read the (i)nstructions, or (q)uit?"
 	end
 
 	def self.user_guess_right
@@ -59,7 +61,7 @@ EEEEEEE AA   AA   TTT      TTT   HH   HH EEEEEEE   OOOO0   CCCCC  EEEEEEE AA   A
 
 	def self.instructions
 		"\n" + 
-		"The goal of EAT THE OCEAN is to guess the location of your opponent's swimming mammals, dolphins (🐬 ) taking up 1x2 spaces and whales (🐋 ) taking up 1x3 spaces on a 4x4 grid. Enter any coordinates in the form of 'LETTERnumber', letters A-D and numbers 1-4. The goal is to eat your opponent's entire ocean before it can eat yours. All animals turn into sushi (🍣 ) upon being discovered. Missed animals are represented by disruptions in the water, water droplets (💦 ). Please (p)lay or (q)uit.\n"
+		"The goal of " + "EAT THE OCEAN".colorize(:blue)+ " is to guess the location of your opponent's swimming mammals," + " dolphins".colorize(:blue) + "(🐬) taking up 1x2 spaces and" + " whales".colorize(:blue) +"(🐋) taking up 1x3 spaces on a 4x4 grid. Enter any coordinates in the form of 'LETTERnumber', letters A-D and numbers 1-4. The goal is to eat your opponent's entire ocean before it can eat yours. All animals turn into " +"sushi".colorize(:red) + "(🍣) upon being discovered. Missed animals are represented by disruptions in the water," + " water droplets".colorize(:light_blue) +" (💦). The ocean grid is represented by " + "big waves".colorize(:blue)+ "(🌊). Please (p)lay or (q)uit.\n"
 	end
 
 	def self.whats_your_guess

@@ -7,17 +7,17 @@ require './lib/map'
 
 class MapTest < MiniTest::Test
 	def setup
-		@map = Map.new(4)
+		@map = Map.new(12)
 	end
 
 	# def test_it_exists
 	# 	assert @map
 	# end
 
-	# def test_it_generates_borders_of_varying_size
-	# 	@map.size = 16
-	# 	puts @map.border_create
-	# end
+	def test_it_generates_borders_of_varying_size
+		@map.size = 16
+		puts @map.border_create
+	end
 
 	# def test_it_generates_number_line
 	# 	puts @map.grid_create

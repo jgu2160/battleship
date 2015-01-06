@@ -26,7 +26,7 @@ class Battleship
 		@first_time = true
 		@second_time = false
 	end
-
+ 
 	def prompt_user
 		if @first_time == true
 			puts Printer.first_boat_loop
