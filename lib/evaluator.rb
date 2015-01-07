@@ -4,8 +4,8 @@ class Evaluator
 	attr_accessor :ship_array, :map, :guess_record
 	attr_reader :hits_record, :misses_record
 	
-	def initialize(opponent_ship_1 = nil, opponent_ship_2 = nil, map = nil)
-		@ship_array = [opponent_ship_1, opponent_ship_2]
+	def initialize(opponent_ship_1 = nil, opponent_ship_2 = nil, opponent_ship_3 = nil, opponent_ship_4 = nil, map = nil)
+		@ship_array = [opponent_ship_1, opponent_ship_2, opponent_ship_3, opponent_ship_4]
 		@hits_record = []
 		@misses_record = []
 		@guess_record = []
