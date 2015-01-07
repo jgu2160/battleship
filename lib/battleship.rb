@@ -209,14 +209,32 @@ if __FILE__ == $0
 	$user_choice
 	until $user_choice == "q"
 		$user_choice = gets.chomp
-		if $user_choice == "e"
-			game = Battleship.new
+    if $user_choice == "e"
+      game = nil
+      while game.nil?
+        begin
+		    	game = Battleship.new
+        rescue SystemStackError
+        end
+      end
 			game.prompt_user
 		elsif $user_choice == "m"
-			game = MediumBattleship.new
+			game = nil
+			while game.nil?
+				begin
+					game = MediumBattleship.new
+				rescue SystemStackError
+				end
+			end
 			game.prompt_user
 		elsif $user_choice == "h"
-			game = HardBattleship.new
+			game = nil
+			while game.nil?
+				begin
+					game = HardBattleship.new
+				rescue SystemStackError
+				end
+			end
 			game.prompt_user
 		elsif $user_choice == "i"
 			puts Printer.instructions
