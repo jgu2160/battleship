@@ -73,4 +73,8 @@ class ShipTest < MiniTest::Test
     assert new_ship_2.on_right_edge?("C3", 5)
     refute new_ship_2.on_right_edge?("C2", 5)
   end
+  def test_it_generates_random_coordinate_according_to_size
+    new_ship = Ship.new(@ship_1x2, 4)
+    puts new_ship.random_1xSize(3)
+  end
 end

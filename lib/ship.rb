@@ -46,9 +46,10 @@ class Ship
   def random_1xSize(size)
     @coordinates[0] = @sample_array.sample + rand(1..@board_size).to_s
 		while @other_ship_array.flatten.include?(@coordinates[0]) && in_corner?(@coordinates[0], size)
-			@coordinates[0] = @sample_array[0..1].sample + rand(1..2).to_s
+			@coordinates[0] = @sample_array.sample + rand(1..@board_size).to_s
 		end
-  end
+    @coordinates
+  end 
 
   def linear_placer(coordinate, vert_hor)
     new_coordinate = nil
