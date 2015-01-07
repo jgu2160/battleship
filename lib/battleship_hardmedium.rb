@@ -5,9 +5,9 @@ class MediumBattleship < Battleship
 	attr_accessor :first_time, :opponent_ship_1x2, :opponent_ship_1x3
 
 	def initialize
-		@user_ship_1x2 = Ship.new(nil, 6)
-		@user_ship_1x3 = Ship.new(nil, 6)
-		@user_ship_1x4 = Ship.new(nil, 6)
+		@user_ship_1x2 = Ship.new([], 6)
+		@user_ship_1x3 = Ship.new([], 6)
+		@user_ship_1x4 = Ship.new([], 6)
 
 		@opponent_ship_1x2 = Ship.new(nil, 6)
 		@opponent_ship_1x2.random_1x2
@@ -92,6 +92,17 @@ class MediumBattleship < Battleship
 			puts Printer.not_in_line
 			self.prompt_user
 		end
+
+		@user_ship_1x3.other_ship_array << @user_ship_1x2.coordinates
+		@user_ship_1x3.other_ship_array.flatten!
+
+		if @user_ship_1x3.blocked?(@user_ship_1x3.coordinates)
+			@first_time = false
+			@second_time = true
+			puts Printer.blocked
+			self.prompt_user
+		end
+
 		self.prompt_user
 	end
 
@@ -124,6 +135,17 @@ class MediumBattleship < Battleship
 			@second_time = false
 			@third_time = true
 			puts Printer.not_in_line
+			self.prompt_user
+		end
+
+		@user_ship_1x4.other_ship_array << @user_ship_1x2.coordinates
+		@user_ship_1x4.other_ship_array << @user_ship_1x3.coordinates
+		@user_ship_1x4.other_ship_array.flatten!
+
+		if @user_ship_1x4.blocked?(@user_ship_1x4.coordinates)
+			@second_time = false
+			@third_time = true
+			puts Printer.blocked
 			self.prompt_user
 		end
 
@@ -177,20 +199,6 @@ class MediumBattleship < Battleship
 			hit_or_not ? puts(Printer.comp_guess_right) : puts(Printer.comp_guess_wrong + aGuess + ".")
 		end
 	end
-
-	def win_game
-		puts "\n" + "You win this (unethical) game! You defeated the computer in #{@user_evaluator.guess_record.length} moves." + "\n\n"
-		$user_choice = "q"
-	end
-
-	def lose_game
-		puts "\n" + "You lose. The computer demoralized you in #{@opponent_evaluator.guess_record.length} moves." + "\n\n"
-		# puts "Play again? (y\\n)"
-		# answer = gets.chomp
-		# if answer == "y"
-		$user_choice = "q"
-	end
-
 end
 
 
@@ -200,10 +208,10 @@ class HardBattleship < Battleship
 	attr_accessor :first_time, :opponent_ship_1x2, :opponent_ship_1x3
 
 	def initialize
-		@user_ship_1x2 = Ship.new(nil, 8)
-		@user_ship_1x3 = Ship.new(nil, 8)
-		@user_ship_1x4 = Ship.new(nil, 8)
-		@user_ship_1x5 = Ship.new(nil, 8)
+		@user_ship_1x2 = Ship.new([], 8)
+		@user_ship_1x3 = Ship.new([], 8)
+		@user_ship_1x4 = Ship.new([], 8)
+		@user_ship_1x5 = Ship.new([], 8)
 
 		@opponent_ship_1x2 = Ship.new(nil, 8)
 		@opponent_ship_1x2.random_1x2
@@ -296,6 +304,17 @@ class HardBattleship < Battleship
 			puts Printer.not_in_line
 			self.prompt_user
 		end
+
+		@user_ship_1x3.other_ship_array << @user_ship_1x2.coordinates
+		@user_ship_1x3.other_ship_array.flatten!
+
+		if @user_ship_1x3.blocked?(@user_ship_1x3.coordinates)
+			@first_time = false
+			@second_time = true
+			puts Printer.blocked
+			self.prompt_user
+		end
+
 		self.prompt_user
 	end
 
@@ -330,6 +349,18 @@ class HardBattleship < Battleship
 			puts Printer.not_in_line
 			self.prompt_user
 		end
+
+		@user_ship_1x4.other_ship_array << @user_ship_1x2.coordinates
+		@user_ship_1x4.other_ship_array << @user_ship_1x3.coordinates
+		@user_ship_1x4.other_ship_array.flatten!
+
+		if @user_ship_1x4.blocked?(@user_ship_1x4.coordinates)
+			@second_time = false
+			@third_time = true
+			puts Printer.blocked
+			self.prompt_user
+		end
+
 		self.prompt_user
 	end
 
@@ -364,10 +395,22 @@ class HardBattleship < Battleship
 		@user_ship_1x5.coordinates[3] = fourth_coordinate
 		@user_ship_1x5.coordinates[4] = fifth_coordinate
 
-		unless @user_ship_1x4.straight?(@user_ship_1x4.coordinates)
+		unless @user_ship_1x5.straight?(@user_ship_1x5.coordinates)
 			@third_time = false
 			@fourth_time = true
 			puts Printer.not_in_line
+			self.prompt_user
+		end
+
+		@user_ship_1x5.other_ship_array << @user_ship_1x2.coordinates
+		@user_ship_1x5.other_ship_array << @user_ship_1x3.coordinates
+		@user_ship_1x5.other_ship_array << @user_ship_1x4.coordinates
+		@user_ship_1x5.other_ship_array.flatten!
+			
+		if @user_ship_1x5.blocked?(@user_ship_1x5.coordinates)
+			@third_time = false
+			@fourth_time = true
+			puts Printer.blocked
 			self.prompt_user
 		end
 
@@ -415,7 +458,7 @@ class HardBattleship < Battleship
 			self.computer_guess
 			self.show_user_map
 			puts "\n"
-			if @opponent_ship_1x2.sunk + @opponent_ship_1x3.sunk + @opponent_ship_1x4.sunk + @opponent_ship_1x5.sunk== 4
+			if @opponent_ship_1x2.sunk + @opponent_ship_1x3.sunk + @opponent_ship_1x4.sunk + @opponent_ship_1x5.sunk == 4
 				self.win_game
 			elsif @user_ship_1x2.sunk + @user_ship_1x3.sunk + @user_ship_1x4.sunk + @user_ship_1x5.sunk == 4
 				self.lose_game
@@ -425,19 +468,6 @@ class HardBattleship < Battleship
 		else
 			hit_or_not ? puts(Printer.comp_guess_right) : puts(Printer.comp_guess_wrong + aGuess + ".")
 		end
-	end
-
-	def win_game
-		puts "\n" + "You win this (unethical) game! You defeated the computer in #{@user_evaluator.guess_record.length} moves." + "\n\n"
-		$user_choice = "q"
-	end
-
-	def lose_game
-		puts "\n" + "You lose. The computer demoralized you in #{@opponent_evaluator.guess_record.length} moves." + "\n\n"
-		# puts "Play again? (y\\n)"
-		# answer = gets.chomp
-		# if answer == "y"
-		$user_choice = "q"
 	end
 end
 

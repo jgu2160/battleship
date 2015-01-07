@@ -82,7 +82,6 @@ class Battleship
 			@second_time = false
 			puts Printer.not_in_line
 		end
-
 		self.prompt_user
 	end
 
@@ -109,6 +108,16 @@ class Battleship
 			@first_time = false
 			@second_time = true
 			puts Printer.not_in_line
+			self.prompt_user
+		end
+
+		@user_ship_1x3.other_ship_array << @user_ship_1x2.coordinates
+		@user_ship_1x3.other_ship_array.flatten!
+
+		if @user_ship_1x3.blocked?(@user_ship_1x3.coordinates)
+			@first_time = false
+			@second_time = true
+			puts Printer.blocked
 			self.prompt_user
 		end
 

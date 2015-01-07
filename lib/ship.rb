@@ -2,9 +2,9 @@ require "byebug"
 # RUBY_THREAD_VM_STACK_SIZE=9000000000000000000000
 
 class Ship
-	attr_accessor :coordinates, :hits, :size, :sunk, :board_size
+	attr_accessor :coordinates, :hits, :size, :sunk, :board_size, :other_ship_array
 
-	def initialize(other_ship_array = nil, board_size = 4)
+	def initialize(other_ship_array = [], board_size = 4)
 		@other_ship_array = other_ship_array 
 		@coordinates = []
 		@size = @coordinates.length

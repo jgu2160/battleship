@@ -30,6 +30,10 @@ module Printer
 		"\nThat was not in a line!".colorize(:red)
 	end
 
+	def self.blocked
+		"\nThis ship is overlapping another. Not okay.".colorize(:red)
+	end
+
 	def self.title
 		"\n" * 60 +
 "EEEEEEE   AAA   TTTTTTT  TTTTTTT HH   HH EEEEEEE   OOOOO   CCCCC  EEEEEEE   AAA   NN   NN 
