@@ -12,14 +12,14 @@ class ShipTest < MiniTest::Test
 		@ship_1x3 = Ship.new(@ship_1x2)
 	end
 
-	def test_it_generates_a_predictable_1x2_ship
-		assert_equal ["A1", "A2"], @ship_1x2.coordinates
-	end
+	# def test_it_generates_a_predictable_1x2_ship
+	# 	assert_equal ["A1", "A2"], @ship_1x2.coordinates
+	# end
 
-	def test_it_generates_a_random_1x2_ship
-		random_1x2 = Ship.new(nil, 10)
-		puts random_1x2.random_1x2
-	end
+	# def test_it_generates_a_random_1x2_ship
+	# 	random_1x2 = Ship.new(nil, 10)
+	# 	puts random_1x2.random_1x2
+	# end
 
 	# def test_it_generates_a_1x3_not_on_top_of_the_1x2
 	# 	puts @ship_1x3.random_1x3
@@ -55,6 +55,8 @@ class ShipTest < MiniTest::Test
   def test_is_the_given_ship_cornered
     assert @ship_1x3.in_corner?("C3", 3)
     refute @ship_1x3.in_corner?("C2", 3)
+    assert @ship_1x3.in_corner?("C4", 3)
+    assert @ship_1x3.in_corner?("D4", 3)
     another_ship = Ship.new(nil, 5)
     assert another_ship.in_corner?("E3", 4)
     assert another_ship.in_corner?("C3", 4)
@@ -73,8 +75,10 @@ class ShipTest < MiniTest::Test
     assert new_ship_2.on_right_edge?("C3", 5)
     refute new_ship_2.on_right_edge?("C2", 5)
   end
+
   def test_it_generates_random_coordinate_according_to_size
-    new_ship = Ship.new(@ship_1x2, 4)
+    @ship_1x2.coordinates = ["B1", "B2"]
+    new_ship = Ship.new(@ship_1x2.coordinates, 4)
     puts new_ship.random_1xSize(3)
   end
 end

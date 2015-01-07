@@ -5,13 +5,13 @@ class Map
 	def initialize(size)
 		@size = size
 		@grid_array = []
-		@num_of_spaces = " 🌊" * @size
+		@num_of_spaces = "  " * @size
 		self.grid_create
 		self.border_create
 	end
 
 	def grid_create
-		@grid_array[1] = ". 1"
+		@grid_array[1] = "🌞 1"
 		(@size - 1).times do |x|
 			@grid_array[1] << " " + @grid_array[1][-1].next
 		end
@@ -25,7 +25,7 @@ class Map
 	def border_create
 		border_string = ""
 		(@size+1).times do |x|
-			border_string << "🏄 "
+			border_string << "🌊 "
 		end
 		@grid_array[0] = border_string
 		@grid_array[size + 2] = border_string

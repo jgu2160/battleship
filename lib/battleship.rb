@@ -14,8 +14,8 @@ class Battleship
 
 		@opponent_ship_1x2 = Ship.new
 		@opponent_ship_1x2.random_1x2
-		@opponent_ship_1x3 = Ship.new(@opponent_ship_1x2)
-		@opponent_ship_1x3.random_1x3
+    @opponent_ship_1x3 = Ship.new(@opponent_ship_1x2.coordinates)
+		@opponent_ship_1x3.random_1xSize(3)
 
 		@user_map = Map.new(4)
 		@opponent_map = Map.new(4)
@@ -76,6 +76,12 @@ class Battleship
 		@user_ship_1x2.coordinates[0] = first_coordinate
 		@user_ship_1x2.coordinates[1] = second_coordinate
 
+		unless @user_ship_1x2.straight?(@user_ship_1x2.coordinates)
+			@first_time = true
+			@second_time = false
+			puts Printer.not_in_line
+		end
+
 		self.prompt_user
 	end
 
@@ -98,9 +104,16 @@ class Battleship
 		@user_ship_1x3.coordinates[1] = second_coordinate
 		@user_ship_1x3.coordinates[2] = third_coordinate
 
+		unless @user_ship_1x3.straight?(@user_ship_1x3.coordinates)
+			@first_time = false
+			@second_time = true
+			puts Printer.not_in_line
+			self.prompt_user
+		end
+
 		self.mark_initial_ship_position_on_map
 		self.show_user_map
-		Printer.prompt_first_guess
+		puts Printer.prompt_first_guess
 		self.prompt_user
 	end
 
@@ -163,9 +176,13 @@ class Battleship
 			self.show_opponent_map
 			self.computer_guess
 			self.show_user_map
-
-			@opponent_ship_1x2.sunk + @opponent_ship_1x3.sunk == 2 ? self.win_game : self.prompt_user
-			@user_ship_1x2.sunk + @user_ship_1x3.sunk == 2 ? self.lose_game : nil
+			if @opponent_ship_1x2.sunk + @opponent_ship_1x3.sunk == 2
+				self.win_game
+			elsif @user_ship_1x2.sunk + @user_ship_1x3.sunk == 2
+				self.lose_game
+			else
+				self.prompt_user
+			end
 		else
 			hit_or_not ? puts(Printer.comp_guess_right) : puts(Printer.comp_guess_wrong + aGuess + ".")
 		end

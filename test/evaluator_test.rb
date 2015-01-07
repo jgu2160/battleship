@@ -7,8 +7,9 @@ require './lib/map'
 
 class EvaluatorTest < MiniTest::Test
 	def setup
-		@ship_1x2 = Ship.new
-		@ship_1x3 = Ship.new(@ship_1x2)
+		@ship_1x2 = Ship.new(nil, 4)
+		@ship_1x2.coordinates = ["A1", "A2"]
+		@ship_1x3 = Ship.new(@ship_1x2.coordinates, 4)
 		@evaluator = Evaluator.new(@ship_1x2)
 		@map = Map.new(4)
 		@evaluator.map = @map
@@ -43,7 +44,7 @@ class EvaluatorTest < MiniTest::Test
 	end
 
 	def test_it_sinks_a_1x3
-		@ship_1x3.random_1x3
+		@ship_1x3.random_1xSize(3)
 		@evaluator.ship_array[1] = @ship_1x3
 		@ship_1x3.coordinates[0] = "B1"
 		@ship_1x3.coordinates[1] = "B2"
@@ -70,7 +71,7 @@ class EvaluatorTest < MiniTest::Test
 	end
 
 	def test_it_shows_hit_coordinates
-		@ship_1x3.random_1x3
+		@ship_1x3.random_1xSize(3)
 		@evaluator.ship_array[1] = @ship_1x3
 		@ship_1x3.coordinates = ["B1", "B2", "B3"]
 		@ship_1x2.coordinates.each do |coordinate|
@@ -91,7 +92,7 @@ class EvaluatorTest < MiniTest::Test
 
 	def test_it_sinks_both_ships
 		@ship_1x2.random_1x2
-		@ship_1x3.random_1x3
+		@ship_1x3.random_1xSize(3)
 		@evaluator.ship_array[0] = @ship_1x2
 		@evaluator.ship_array[1] = @ship_1x3
 		@ship_1x2.coordinates[0] = "A1"

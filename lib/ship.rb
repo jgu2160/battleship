@@ -4,7 +4,7 @@ class Ship
 
 	def initialize(other_ship_array = nil, board_size = 4)
 		@other_ship_array = other_ship_array 
-		@coordinates = ["A1", "A2"]
+		@coordinates = []
 		@size = @coordinates.length
 		@sunk = 0
 		@hits = 0
@@ -26,29 +26,38 @@ class Ship
 		@coordinates
 	end
 
-	# def random_1x3
-	# 	@coordinates[0] = @sample_array[0..1].sample + rand(1..2).to_s
-	# 	while @other_ship.coordinates.include?(@coordinates[0])
-	# 		@coordinates[0] = @sample_array[0..1].sample + rand(1..2).to_s
-	# 	end
-	# 	if horz_space_check(@coordinates[0],3)
-	# 		@coordinates[0][1] = (@coordinates[0][1].to_i - 3).to_s
-	# 		@coordinates[1] = @coordinates[0][0] + @coordinates[0][1].next
-	# 		@coordinates[2] = @coordinates[0][0] + @coordinates[1][1].next
-	# 	else
-	# 		@coordinates[0][1] = (@coordinates[0][1].to_i - 3).to_s
-	# 		@coordinates[1] = @coordinates[0][0].next + @coordinates[0][1]
-	# 		@coordinates[2] = @coordinates[1][0].next + @coordinates[0][1]
-	# 	end
-	# 	@coordinates
-	# end
-
   def random_1xSize(size)
+    #flatten
     @coordinates[0] = @sample_array.sample + rand(1..@board_size).to_s
-		while @other_ship_array.flatten.include?(@coordinates[0]) && in_corner?(@coordinates[0], size)
+		while @other_ship_array.include?(@coordinates[0]) || in_corner?(@coordinates[0], size)
 			@coordinates[0] = @sample_array.sample + rand(1..@board_size).to_s
 		end
-    @coordinates
+   
+    if on_bottom_edge?(@coordinates[0], size)
+      0.upto(size-2) do |x|
+        @coordinates << linear_placer(@coordinates[x], "h")
+      end
+    elsif on_right_edge?(@coordinates[0], size)
+      0.upto(size-2) do |x|
+        @coordinates << linear_placer(@coordinates[x], "v")
+      end
+    else
+      if rand > 0.5
+        0.upto(size-2) do |x|
+         @coordinates << linear_placer(@coordinates[x], "h")
+        end
+      else
+        0.upto(size-2) do |x|
+         @coordinates << linear_placer(@coordinates[x], "v")
+        end
+      end
+    end
+
+   if blocked?(@coordinates)
+    self.random_1xSize(size)
+   end
+
+   @coordinates
   end 
 
   def linear_placer(coordinate, vert_hor)
@@ -106,7 +115,7 @@ class Ship
   def blocked?(array)
     blocked = false
     array.each do |coordinate|
-      if @other_ship_array.flatten.include?(coordinate)
+      if @other_ship_array.include?(coordinate)
         blocked = true
         break
       end
@@ -114,14 +123,4 @@ class Ship
     blocked
   end
 
-	def horz_space_check(starting_coordinate, ship_size)
-		space_okay = true
-		ship_size.times do |x|
-			if @other_ship.coordinates.include?(starting_coordinate)
-				space_okay = false
-			end
-			starting_coordinate[1] = starting_coordinate[1].next
-		end
-		return space_okay
-	end
 end
