@@ -1,4 +1,6 @@
 require "byebug"
+# RUBY_THREAD_VM_STACK_SIZE=9000000000000000000000
+
 class Ship
 	attr_accessor :coordinates, :hits, :size, :sunk, :board_size
 
@@ -78,13 +80,14 @@ class Ship
      the_corner << linear_placer(the_corner[x], "v")
     end
 
+    #it makes 1 more coordinate than necessary
     array_length = the_corner.length
     if array_length == 2
      0.upto(1) do |x|      
      the_corner << linear_placer(the_corner[x], "h")
     end
     else
-     0.upto(array_length * (array_length - 2)) do |x|      
+     0.upto(array_length * (array_length - 1)) do |x|      
       the_corner << linear_placer(the_corner[x], "h")
      end
     end
