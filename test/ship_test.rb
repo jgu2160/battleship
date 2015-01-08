@@ -86,11 +86,11 @@ class ShipTest < MiniTest::Test
   # end
 
   def test_it_generates_a_1x4_on_a_5x5_grid
-    ship_1x2 = Ship.new(nil, 9)
+    ship_1x2 = Ship.new(nil, 5)
     ship_1x2.random_1x2
-    ship_1x3 = Ship.new(ship_1x2.coordinates, 9)
+    ship_1x3 = Ship.new(ship_1x2.coordinates, 5)
     ship_1x3.random_1xSize(3)
-    ship_1x4 = Ship.new(ship_1x2.coordinates + ship_1x3.coordinates, 9)
+    ship_1x4 = Ship.new(ship_1x2.coordinates + ship_1x3.coordinates, 5)
     ship_1x4.random_1xSize(4)
 
     puts ship_1x2.coordinates + ship_1x3.coordinates + ship_1x4.coordinates
