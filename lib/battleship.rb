@@ -50,7 +50,7 @@ class Battleship
 		if upcased[/[ABCD][1234]/] && upcased.length == 2
 			return upcased[0..1]
 		elsif aString == "q"
-			$user_choice = "q"
+			return $user_choice = "q"
 		else
 			input_invalid = true
 			while input_invalid
@@ -205,9 +205,6 @@ class Battleship
 
 	def lose_game
 		puts "\n" + "You lose. The computer demoralized you in #{@opponent_evaluator.guess_record.length} moves." + "\n\n"
-		# puts "Play again? (y\\n)"
-		# answer = gets.chomp
-		# if answer == "y"
 		$user_choice = "q"
 	end
 end

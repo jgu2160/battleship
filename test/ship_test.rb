@@ -1,6 +1,5 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/battleship'
 require './lib/ship'
 require './lib/evaluator'
 require './lib/printer'
